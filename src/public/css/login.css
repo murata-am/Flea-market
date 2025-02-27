@@ -1,0 +1,122 @@
+/* ヘッダー */
+.header {
+    background-color: black;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 2%;
+}
+
+/* ヘッダー内のコンテンツ */
+.Top-page_header {
+    max-width: 730px;
+    width: 50%;
+    height: 36px;
+    margin-left: 0;
+}
+
+/* ロゴ画像 */
+.Top-page_header img {
+    height: 36px;
+    /* ヘッダーの高さに合わせる */
+    width: auto;
+    /* 画像の縦横比を維持 */
+}
+
+/* タブレット用（幅 768-850px） */
+@media (max-width: 850px) {
+    .Top-page_header {
+        width: 600px;
+        /* 幅を少し縮小 */
+        margin-left: 3%;
+        /* 左に少し寄せる */
+    }
+}
+
+/* スマホ用（幅 768px以下） */
+@media (max-width: 768px) {
+    .Top-page_header {
+        width: 90%;
+        /* 画面幅の90%を使用 */
+        margin-left: auto;
+        margin-right: auto;
+        /* スマホでは中央寄せ */
+        text-align: center;
+    }
+}
+
+/* === 登録フォームの中央寄せ === */
+.container {
+    width: 400px;
+    /* 適切な幅を指定 */
+    margin: 50px auto;
+    /* 上下の余白を持たせて中央配置 */
+    padding: 20px;
+    text-align: center;
+    /* 内部のテキストを中央寄せ */
+}
+
+/* フォームのラベル */
+.form-label {
+    text-align: left;
+    /* 左寄せ */
+    display: block;
+    /* ブロック要素にして改行 */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 入力フォーム */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    /* 幅を統一 */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* エラーメッセージ */
+.form-error {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: left;
+    /* 左寄せ */
+}
+
+/* 登録ボタン */
+.form_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #FF5555;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    /* ブロック要素にして中央配置 */
+    margin-top: 10px;
+}
+
+.form_button:hover {
+    background-color: #fc534e;
+}
+
+/* ログインリンク */
+.link_login {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    /* 下線を消す */
+    color: #007bff;
+}
+
+.link_login:hover {
+    text-decoration: underline;
+}
