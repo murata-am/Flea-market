@@ -87,6 +87,13 @@ input[type="password"] {
     text-align: left;
     /* 左寄せ */
 }
+.alert-danger {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: left;
+    /* 左寄せ */
+}
 
 /* 登録ボタン */
 .form_button {

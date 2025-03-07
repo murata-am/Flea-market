@@ -1,0 +1,21 @@
+.tab {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.tab .tab-link {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-bottom: 3px solid transparent;
+    color: black;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
