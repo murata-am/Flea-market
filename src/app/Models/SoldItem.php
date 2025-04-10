@@ -9,7 +9,7 @@ class SoldItem extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
+        'buyer_id',
         'item_id',
         'shipping_address',
         'payment_method'

@@ -21,7 +21,7 @@ class CreateItemsTable extends Migration
             $table->string('description', 225);
             $table->string('condition', 225);
             $table->string('image', 225);
-            $table->string('brand_name', 225);
+            $table->string('brand_name', 225)->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

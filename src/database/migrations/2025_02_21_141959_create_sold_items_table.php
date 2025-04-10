@@ -18,7 +18,7 @@ class CreateSoldItemsTable extends Migration
             $table->foreignId('buyer_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->string('shipping_address', 225);
-            $table->string('payment_method', 225);
+            $table->string('payment_method', 225)->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

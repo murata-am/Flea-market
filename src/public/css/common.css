@@ -1,7 +1,7 @@
 .header {
     background-color: black;
     width: 100%;
-    padding: 10px 20px;
+    padding: 10px 3px;
 }
 
 /* ヘッダー内のコンテンツ */
@@ -13,56 +13,61 @@
     margin: 0 auto;
 }
 
+/* ロゴ画像（左寄せ） */
+.Top-page_header .logo {
+    flex: 1;
+}
+
 /* ロゴ画像 */
 .Top-page_header img {
     height: 36px;
-    /* ヘッダーの高さに合わせる */
     width: 370px;
-    /* 画像の縦横比を維持 */
+}
+
+.Top_page_header_search_container {
+    flex: 2;
+    display: flex;
+    margin-left: 30px;
 }
 
 .Top_page_header_search {
-    flex-grow: 1;
-    /* 検索フォームを中央に拡張 */
-    max-width: 400px;
-    /* 検索フォームの最大幅 */
-    margin: 0 20px;
-    padding: 8px 12px;
+    width: 140%;
+    max-width: 650px;
+    padding: 8px 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
     font-size: 16px;
 }
 
+.Top-page_header .buttons {
+    flex: 1; /* 右側に配置 */
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+    white-space: nowrap;
+}
+
 /* ボタン類の配置 */
-.Top-page_header a {
+.Top-page_header a,
+.Top-page_header form {
     text-decoration: none;
-    /* 下線を消す */
-    padding: 8px 15px;
     font-size: 16px;
     border-radius: 5px;
     margin-left: 10px;
+
 }
 
-.Top-page_header form .button {
+.nav_button {
     color: white;
-    /* 文字を白に */
     background: none;
-    /* 背景なし */
     border: none;
-    /* 枠なし */
     font-size: 16px;
     cursor: pointer;
 }
 
-/* マイページ（白色テキスト） */
-.Top-page_header a.button {
-    color: white;
-    background: none;
-}
-
 /* 出品ボタン（白枠で囲む） */
-.Top-page_header a.button:last-child {
+.sell_button {
     border: 2px solid white;
     background-color: white;
     color: black;
@@ -74,24 +79,22 @@
     opacity: 0.8;
 }
 
-/* タブレット用（幅 768-850px） */
-@media (max-width: 850px) {
+@media screen and (max-width: 850px) and (min-width: 768px) {
     .Top-page_header {
-        width: 600px;
-        /* 幅を少し縮小 */
-        margin-left: 3%;
-        /* 左に少し寄せる */
-    }
-}
-
-/* スマホ用（幅 768px以下） */
-@media (max-width: 768px) {
-    .Top-page_header {
-        width: 90%;
-        /* 画面幅の90%を使用 */
-        margin-left: auto;
-        margin-right: auto;
-        /* スマホでは中央寄せ */
+        flex-direction: column;
+        align-items: center;
         text-align: center;
+    }
+
+    .Top_page_header_search_container {
+        width: 100%;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+    .buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

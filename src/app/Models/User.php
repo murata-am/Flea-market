@@ -47,33 +47,21 @@ class User extends Authenticatable
 
     public function soldItems()
     {
-        return $this->hasMany(SoldItem::class, 'seller_id');
+        return $this->hasMany(SoldItem::class, 'buyer_id');
     }
 
-    public function likeButton()
+    public function likeButtons()
     {
-        return $this->hasOne(LikeButton::class);
+        return $this->hasMany(LikeButton::class);
     }
 
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(Item::class, 'user_id');
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-}
-
-class Profile extends Authenticatable
-{
-    protected $fillable = [
-        'user_id','postal_code', 'address', 'building', 'image'
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }

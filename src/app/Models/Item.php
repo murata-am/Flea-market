@@ -21,12 +21,19 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'item_category');
     }
 
-    public function like_button()
+    public function likes()
     {
-        return $this->hasOne(Like_button::class);
+        return $this->hasMany(LikeButton::class, 'item_id');
+    }
+
+    public function isLikedBy($user)
+    {
+        if (!$user)
+            return false;
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 
     public function Seller()
@@ -36,7 +43,7 @@ class Item extends Model
 
     public function sold_item()
     {
-        return $this->hasOne(Sold_item::class);
+        return $this->hasOne(SoldItem::class);
     }
 
     public function comments()
@@ -44,52 +51,9 @@ class Item extends Model
         return $this->hasMany(Comment::class);
     }
 
-}
-
-class Category extends Model
-{
-    use HasFactory;
-    protected $fillable = [
-        'name'
-    ];
-
-    public function items()
+    public function getLikeCountAttribute()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->likes()->count();
     }
 
-}
-
-class Comments extends Model
-{
-    use HasFactory;
-    protected $fillable = [
-        'content', 'user_id', 'item_id'
-    ];
-
-    public function items()
-    {
-        return $this->belongsTo(item::class);
-    }
-
-    public function users()
-    {
-        return $this->belongsTo(user::class);
-    }
-}
-
-class likeButtones extends Model
-{
-    use HasFactory;
-    protected $fillable = [ 'user_id', 'item_id'];
-
-    public function items()
-    {
-        return $this->belongsTo(item::class);
-    }
-
-    public function users()
-    {
-        return $this->belongsTo(user::class);
-    }
 }

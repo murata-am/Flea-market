@@ -9,12 +9,19 @@
     <div class="container">
         <h2 class="title">プロフィール設定</h2>
 
-        <form class='form-group' action="/update" method="post">
+        <form class='form-group' action="/mypage/profile" method="post" enctype="multipart/form-data">
             @csrf
-            <output id="list" class="image_output"></output>
+            @method('PATCH')
+            <div class="image_container">
+                <div class="image_output_wrap">
+                    <img class="profile_image"  id="previewImage"                         src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('images/default.png') }}"
+                        alt="">
+                    <input class="file" type="file" id="imageInput" name="image" accept="image/*" hidden>
+                    </output>
+                </div>
 
-            <label for="image" class="file-label">画像を選択する</label>
-            <input class="file" type="file" id="image" name="image" accept="image/*" hidden>
+            <label for="imageInput" class="file-label">画像を選択する</label>
+            </div>
 
             <div class="form-error">
                 @error('image')
@@ -23,7 +30,9 @@
             </div>
 
             <div class="form-label">ユーザー名</div>
-            <input type="text" id="name" name="name" value="{{ old('name') }}">
+            <input type="text" id="name" name="name" value="{{ old('name', $user->name ?? '') }}">
+
+
             <div class="form-error">
                 @error('name')
                     {{ $message }}
@@ -31,7 +40,7 @@
             </div>
 
             <div class="form-label">郵便番号</div>
-            <input type="text" id="postal_code" name="postal_code">
+            <input type="text" id="postal_code" name="postal_code" value="{{ old('postal_code', $profile->postal_code ?? '') }}">
             <div class="form-error">
                 @error('postal_code')
                     {{ $message }}
@@ -39,7 +48,7 @@
             </div>
 
             <div class="form-label">住所</div>
-            <input type="text" id="address" name="address">
+            <input type="text" id="address" name="address" value="{{ old('address', $profile->address ?? '')  }}">
             <div class="form-error">
                 @error('address')
                     {{ $message }}
@@ -47,12 +56,7 @@
             </div>
 
             <div class="form-label">建物名</div>
-            <input type="text" id="building" name="building">
-            <div class="form-error">
-                @error('building')
-                    {{ $message }}
-                @enderror
-            </div>
+            <input type="text" id="building" name="building" value="{{ old('building', $profile->building ?? '') }}">
 
             <button class="form_button" type="submit">更新する</button>
 
@@ -60,17 +64,18 @@
     </div>
 
     <script>
-    document.getElementById("image").addEventListener("change", function(event) {
-    let output = document.getElementById("list");
-    output.innerHTML = ""; // 既存の画像をクリア
+    document.getElementById('imageInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('previewImage');
 
-    let file = event.target.files[0];
-    if (file) {
-        let img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        output.appendChild(img);
-    }
-    });
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    preview.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 
 @endsection

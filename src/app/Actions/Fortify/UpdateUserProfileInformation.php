@@ -5,7 +5,8 @@ namespace App\Actions\Fortify;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\AddressRequest;
+use App\Http\Requests\ProfileRequest;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
@@ -17,28 +18,34 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input): void
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+        $profileRequest = new ProfileRequest();
+        $profileValidator = Validator::make($input, $profileRequest->rules());
+        $profileValidator->validate();  // バリデーション実行
 
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-        ])->validateWithBag('updateProfileInformation');
+        // 住所リクエストのバリデーション
+        $addressRequest = new AddressRequest();
+        $addressValidator = Validator::make($input, $addressRequest->rules());
+        $addressValidator->validate();  // バリデーション実行
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
-        } else {
-            $user->forceFill([
-                'name' => $input['name'],
-                'email' => $input['email'],
-            ])->save();
+        // プロフィール画像がアップロードされている場合
+        if (isset($input['image'])) {
+            // 画像ファイルの保存
+            $imagePath = $input['image']->store('profile_images', 'public');  // public ディスクに保存
+
+            // 画像パスをユーザー情報に保存
+            $user->profile_image = $imagePath;
         }
+
+        // ユーザー情報の更新
+        $user->forceFill([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'address' => $input['address'],  // 住所を追加
+            'postal_code' => $input['postal_code'],  // 郵便番号を追加
+            'building' => $input['building'],  // 建物名を追加
+        ])->save();
     }
+}
 
     /**
      * Update the given verified user's profile information.

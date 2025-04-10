@@ -27,4 +27,11 @@ class ProfileRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'image.mimes' => '画像には.jpg.ping形式のファイルを指定してください'
+        ];
+    }
 }

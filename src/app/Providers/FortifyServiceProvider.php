@@ -11,6 +11,7 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Route;
 use App\Http\Responses\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -34,6 +35,8 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
+        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+
         Fortify::loginView(function () {
             return view('auth.login');
         });
@@ -46,11 +49,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-        Route::post('/logout', function (Request $request) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-        })->middleware('auth')->name('logout');
 
     }
 }

@@ -1,0 +1,27 @@
+{
+  "name": "flea-market",
+  "version": "1.0.0",
+  "description": "## 環境構築",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murata-am/Flea-market.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/murata-am/Flea-market/issues"
+  },
+  "homepage": "https://github.com/murata-am/Flea-market#readme",
+  "devDependencies": {
+    "vite": "^6.2.2"
+  },
+  "dependencies": {
+    "vue": "^2.7.16"
+  }
+}

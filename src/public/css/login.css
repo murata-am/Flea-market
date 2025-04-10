@@ -35,15 +35,11 @@
     }
 }
 
-/* スマホ用（幅 768px以下） */
-@media (max-width: 768px) {
+/* PC用（幅 768px以下） */
+@media (max-width: 1540px) {
     .Top-page_header {
-        width: 90%;
-        /* 画面幅の90%を使用 */
-        margin-left: auto;
-        margin-right: auto;
-        /* スマホでは中央寄せ */
-        text-align: center;
+        width: 100%;
+
     }
 }
 
