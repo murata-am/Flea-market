@@ -1,24 +1,22 @@
 .header {
     background-color: black;
     width: 100%;
-    padding: 10px 3px;
+    padding: 10px 0px;
 }
 
-/* ヘッダー内のコンテンツ */
 .Top-page_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
     margin: 0 auto;
+    flex-wrap: wrap;
 }
 
-/* ロゴ画像（左寄せ） */
 .Top-page_header .logo {
     flex: 1;
+    padding-left: 0px;
 }
 
-/* ロゴ画像 */
 .Top-page_header img {
     height: 36px;
     width: 370px;
@@ -27,28 +25,38 @@
 .Top_page_header_search_container {
     flex: 2;
     display: flex;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 
 .Top_page_header_search {
     width: 140%;
     max-width: 650px;
-    padding: 8px 14px;
+    padding: 8px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
     font-size: 16px;
+    margin: 0 auto;
+}
+
+.search_button_row {
+    display: flex;
+    flex: 3;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: nowrap;
 }
 
 .Top-page_header .buttons {
-    flex: 1; /* 右側に配置 */
+    flex: 1;
     display: flex;
     margin-right: 10px;
     align-items: center;
     white-space: nowrap;
 }
 
-/* ボタン類の配置 */
 .Top-page_header a,
 .Top-page_header form {
     text-decoration: none;
@@ -64,9 +72,9 @@
     border: none;
     font-size: 16px;
     cursor: pointer;
+
 }
 
-/* 出品ボタン（白枠で囲む） */
 .sell_button {
     border: 2px solid white;
     background-color: white;
@@ -74,27 +82,92 @@
     padding: 4px 12px;
 }
 
-/* ボタンのホバー時 */
 .Top-page_header a:hover {
     opacity: 0.8;
 }
 
-@media screen and (max-width: 850px) and (min-width: 768px) {
+.Top-page_header .logo,
+.Top_page_header_search_container,
+.Top-page_header .buttons {
+    padding: 2px 10px;
+}
+
+@media screen and (max-width: 1540px) and (min-width: 1400px) {
     .Top-page_header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: row;
+    }
+
+    .Top-page_header
+    .logo {
+        flex: 1;
+        text-align: left;
     }
 
     .Top_page_header_search_container {
-        width: 100%;
-        text-align: center;
+        flex: 2;
+        display: flex;
+        justify-content: center;
+    }
+
+    .Top-page_header
+    .buttons {
+        flex: 1;
+        justify-content: flex-end;
+        display: flex;
         flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 850px) and (min-width: 768px) {
+    .Top-page_header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding: 5px 10px;
+    }
+
+    .logo {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .search_button_row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .Top_page_header_search_container {
+        flex: 1.5;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .Top_page_header_search {
+        width: 100%;
+        max-width: 100%;
+        padding-bottom: 2px;
     }
 
     .buttons {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        gap: 10px;
     }
+
+    .nav_button,
+    .sell_button {
+        font-size: 14px;
+        padding: 6px 10px;
+        white-space: nowrap;
+    }
+
+
 }

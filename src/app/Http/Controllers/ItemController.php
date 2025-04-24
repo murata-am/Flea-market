@@ -6,13 +6,10 @@ use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Item;
 use App\Models\SoldItem;
 use App\Models\Category;
-use App\Models\User;
 use App\Models\LikeButton;
 use App\Models\Comment;
 
@@ -24,17 +21,21 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tab = $request->query('tab', 'all'); // クエリパラメータ `tab` を取得（デフォルトは 'all'）
+        $tab = $request->query('tab', 'all');
 
         if ($tab === 'mylist') {
-            if($user) {
+            if ($user) {
                 $items = Item::whereHas('likes', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
-            })
-            ->where('user_id', '!=', $user->id)
-            ->get();
+                })
+                    ->where('user_id', '!=', $user->id)
+                    ->get();
             } else {
-                $items = collect();
+                if ($user) {
+                    $items = Item::where('user_id', '!=', $user->id)->get();
+                } else {
+                    $items = Item::all();
+                }
             }
         } else {
             if ($user) {
@@ -56,17 +57,41 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $tab = $request->input('tab');
 
-        $items = Item::where('name', 'like', '%' . $query . '%')->get();
+        if ($tab === 'mylist') {
+            if (!auth()->check()) {
+                return view('index', ['items' => []]);
+            }
+            $likedItemIds = auth()->user()
+                ->likeButtons()
+                ->pluck('item_id');
+            $items = Item::whereIn('id', $likedItemIds);
 
-        return view('index', ['items' => $items]);
+            if ($query) {
+                $items = $items->where('name', 'like', '%' . $query . '%');
+            }
+
+            $items = $items->get();
+
+        } else {
+            $items = Item::query();
+
+            if ($query) {
+                $items = $items->where('name', 'like', '%' . $query . '%');
+            }
+
+            $items = $items->get();
+        }
+
+        return view('index', compact('items', 'tab'));
     }
 
     public function showItem($item_id)
     {
         $item = Item::with(['categories', 'comments'])->withCount('comments')->findOrFail($item_id);
 
-        $soldItem= SoldItem::where('item_id', $item->id)->exists();  // 購入履歴があるか確認
+        $soldItem = SoldItem::where('item_id', $item->id)->exists();
 
         $user = auth()->user();
         $item_likes = LikeButton::where('item_id', $item->id)->count();
@@ -75,7 +100,7 @@ class ItemController extends Controller
         $item->like_count = $item_likes;
 
         $comments = Comment::where('item_id', $item_id)
-            ->with('user') // コメントしたユーザー情報
+            ->with('user')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -92,23 +117,21 @@ class ItemController extends Controller
     {
         $user = Auth::user();
 
-        // すでに「いいね」しているかチェック
         $like = LikeButton::where('user_id', $user->id)->where('item_id', $item->id)->first();
 
         if ($like) {
-            $like->delete();// いいねを削除
+            $like->delete();
             $status = "unliked";
         } else {
-            // いいねを追加
             LikeButton::create([
                 'user_id' => $user->id,
                 'item_id' => $item->id,
             ]);
             $status = "liked";
         }
-            $like_count = LikeButton::where('item_id', $item->id)->count();
+        $like_count = LikeButton::where('item_id', $item->id)->count();
 
-            return response()->json([
+        return response()->json([
             'status' => $status,
             'like_count' => $like_count
         ]);
@@ -123,7 +146,6 @@ class ItemController extends Controller
         ]);
 
         $comment = Comment::with('user.profile')->find($comment->id);
-
 
         return response()->json([
             'comment' => [
@@ -145,15 +167,13 @@ class ItemController extends Controller
         $item = Item::find($item_id);
         $profile = $user->profile;
 
-        $shippingAddressFromSession = session()->get('shipping_address');
-
-        $shippingAddressToShow = $shippingAddressFromSession ?? [
+        $shippingAddress = session('shipping_address') ?? [
             'postal_code' => $profile->postal_code,
             'address' => $profile->address,
             'building' => $profile->building,
         ];
 
-        return view('purchase.index', compact('item', 'profile', 'shippingAddressToShow'));
+        return view('purchase.index', compact('item', 'profile', 'shippingAddress'));
     }
 
     public function storePurchase(PurchaseRequest $request, $item_id)
@@ -166,18 +186,14 @@ class ItemController extends Controller
             return back()->withErrors(['item' => '商品が見つかりません']);
         }
 
+        if (SoldItem::where('item_id', $item->id)->exists()) {
+            return back()->withErrors(['item' => 'この商品はすでに購入されています']);
+        }
+
         $shipping_address = session()->get('shipping_address', [
             'postal_code' => $profile->postal_code,
             'address' => $profile->address,
             'building' => $profile->building,
-        ]);
-
-        if (empty($shipping_address['postal_code']) || empty($shipping_address['address'])) {
-            return back()->withErrors(['shipping_address' => '配送先を変更してください']);
-        }
-
-        $request->merge([
-            'shipping_address' => $shipping_address['postal_code'] . $shipping_address['address']
         ]);
 
 
@@ -189,7 +205,7 @@ class ItemController extends Controller
         ]);
 
 
-        return redirect()->route('mypage')->with('success', '購入が完了しました！');
+        return redirect()->route('mypage', ['tab' => 'buy'])->with('success', '購入が完了しました！');
     }
 
 
@@ -204,25 +220,24 @@ class ItemController extends Controller
     public function sellStore(ExhibitionRequest $request)
     {
         if ($request->hasFile('image')) {
-            // 一旦保存（バリデーション前でも保存してOKです）
             $storedPath = $request->file('image')->store('items', 'public');
             $imagePath = 'storage/' . $storedPath;
 
             session()->flash('image_path', $imagePath);
 
-            } else {
-                return redirect()->back()->withErrors(['image' => '画像は必須です。'])->withInput();
-            }
+        } else {
+            return redirect()->back()->withErrors(['image' => '画像は必須です。'])->withInput();
+        }
 
 
         $item = Item::create([
-            'user_id'       => auth()->id(),
-            'name'          => $request->name,
-            'brand_name'    => $request->brand,
-            'description'   => $request->description,
-            'price'         => $request->price,
-            'condition'     => $request->condition,
-            'image'         => $imagePath,
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'brand_name' => $request->brand,
+            'description' => $request->description,
+            'price' => $request->price,
+            'condition' => $request->condition,
+            'image' => $imagePath,
         ]);
 
         session()->forget('image_path');
@@ -234,7 +249,7 @@ class ItemController extends Controller
 
 
 
-        return redirect()->route('mypage')->with('success', '商品が出品されました！');
+        return redirect()->route('mypage', ['tab' => 'sell'])->with('success', '商品が出品されました！');
     }
 
 }

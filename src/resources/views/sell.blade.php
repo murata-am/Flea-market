@@ -77,7 +77,7 @@
                     <input type="text" name="brand" value="{{ old('brand') }}">
 
                 <label class="item_description">商品の説明</label>
-                    <textarea type="text" name="description"> {{ old('description') }}</textarea>
+                    <textarea class="description_text" type="text" name="description"> {{ old('description') }}</textarea>
 
                     @error('description')
                         <p class="error-message">{{ $message }}</p>
@@ -85,7 +85,7 @@
 
                 <label class="item_price">販売価格</label>
                     <div class="price-container">
-                    <span class="price_symbol">￥</span>
+                    <span class="price_symbol">¥</span>
                     <input type="text" name="price" class="price" value="{{ old('price') }}">
                     </div>
 

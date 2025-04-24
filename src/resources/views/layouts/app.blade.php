@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -15,27 +15,31 @@
         <div class="Top-page_header">
             <div class="logo">
                 <a href="/">
-                    <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHアイコン"></a>
+                    <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHアイコン">
                 </a>
             </div>
-            <div class="Top_page_header_search_container">
-                <form action="/search" method="get">
-                    @csrf
-                    <input class="Top_page_header_search" type="text" name="query" placeholder="なにをお探しですか？"></input>
-                </form>
-            </div>
 
-            <div class="buttons">
-                @if(Auth::check())
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="nav_button">ログアウト</button>
+            <div class="search_button_row">
+                <div class="Top_page_header_search_container">
+                    <form action="/search" method="get">
+                    @csrf
+                    <input class="Top_page_header_search" type="text" name="query" placeholder=" なにをお探しですか？ " value="{{ request('query') }}">
+                    <input type="hidden" name="tab" value="{{ request('tab') }}">
                     </form>
-                @else
-                    <a href="{{ route('login') }}" class="nav_button">ログイン</a>
-                @endif
-                <a href="/mypage" class="nav_button">マイページ</a>
-                <a href="/sell" class="sell_button">出品</a>
+                </div>
+
+                <div class="buttons">
+                    @if(Auth::check())
+                        <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                            <button type="submit" class="nav_button">ログアウト</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="nav_button">ログイン</a>
+                    @endif
+                    <a href="/mypage" class="nav_button">マイページ</a>
+                    <a href="/sell" class="sell_button">出品</a>
+                </div>
             </div>
         </div>
     </header>

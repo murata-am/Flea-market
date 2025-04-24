@@ -95,7 +95,7 @@ return [
     'numeric'              => ':attributeには、数字を指定してください',
     'password'             => 'パスワードと一致しません',
     'present'              => ':attributeが存在している必要があります',
-    'regex'                => ':attributeには、有効な正規表現を指定してください',
+    'regex'                => ':attributeはハイフンありの8文字の数字を入れてください',
     'required'             => ':attributeを入力してください',
     'required_if'          => ':otherが:valueの場合、:attributeを指定してください',
     'required_unless'      => ':otherが:values以外の場合、:attributeを指定してください',
@@ -151,6 +151,9 @@ return [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'password_confirmation' => '確認用パスワード',
-        'image' => '画像'
+        'image' => '画像',
+        'address' => '住所',
+        'postal_code' => '郵便番号'
+
     ],
 ];

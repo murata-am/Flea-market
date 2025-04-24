@@ -17,7 +17,7 @@ class ItemTableSeeder extends Seeder
     public function run()
     {
         $user1 = User::firstOrCreate([
-            'email' => 'user1@example.com', // 一意のメールアドレスを使う
+            'email' => 'user1@example.com',
             ],
             ['name' => 'ユーザー1',
             'password' => bcrypt('password'),
@@ -163,7 +163,6 @@ class ItemTableSeeder extends Seeder
         ];
 
         foreach ($items as $data) {
-            // アイテムを作成
             $item = Item::create([
                 'user_id' => $data['user_id'],
                 'name' => $data['name'],

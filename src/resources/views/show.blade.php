@@ -19,25 +19,37 @@
         </div>
 
         <div class="right_content">
-            <class="item_content">
+            <div class="item_content">
                 <h1 class="item_name">{{ $item->name }}</h1>
                 <p class="brand_name">{{ $item->brand_name }}</p>
+
                 <p class="item_price">
                     <span class="price_icon">￥</span>
-                    <span class="price_value">{{ $item->price }}</span>
+                    <span class="price_value">{{ number_format($item->price) }}</span>
                     <span class="price_tax">(税込)</span>
                 </p>
 
                 <div class="like_comment_button">
                 <div class="item">
-                    <button class="like-btn" data-item-id="{{ $item->id }}">
-                        @if($item->isLikedBy(Auth::user()))
-                            ⭐
-                        @else
-                            ☆
-                        @endif
-                    </button>
-                    <p class="like-count"> <span id="like-count-{{ $item->id }}">{{ $item->like_count }}</span></p>
+                    <div class="like-comment">
+                        <div class="icon-wrapper">
+                            <button class="like-btn" data-item-id="{{ $item->id }}">
+                                @if($item->isLikedBy(Auth::user()))
+                                    ⭐
+                                @else
+                                    ☆
+                                @endif
+                            </button>
+                            <p class="like-count"> <span id="like-count-{{ $item->id }}">{{ $item->like_count }}</span></p>
+                        </div>
+
+                        <div class="icon-wrapper">
+                            <div class="comment-icon">💬</div>
+                            <p class="comment_count">{{ $item->comments ? $item->comments->count() : 0 }}</p>
+                        </div>
+                    </div>
+            </div>
+
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script>
@@ -68,16 +80,12 @@
                                         $("#like-count-" + itemId).text(response.like_count);
                                     },
                                     error: function () {
-                                        alert("エラーが発生しました");
+                                        alert("いいねをするにはログインしてください");
                                     }
                                 });
                             });
                         });
                     </script>
-                </div>
-
-                    <div class="comment_icon">💬</div>
-                        <p class="comment_count">{{ $item->comments ? $item->comments->count() : 0 }}</p>
                 </div>
 
                 <a class="purchase" href="{{ route('purchase.index', ['item_id' => $item->id]) }}" @if($soldItem) style="pointer-events: none; background-color: gray;" @endif>
@@ -157,7 +165,7 @@
                             @endforeach
 
                     @else
-                        <p id="no-comments">まだコメントはありません。</p>
+                        <p id="no-comments"></p>
                     @endif
                     </div>
                     </p>
@@ -204,7 +212,7 @@
                                             <div class="comment">
                                                 <div class="comment-header">
                                                     <img src="${comment.user.profile_image ?? 'default-profile.png'}" alt="" class="profile-img">
-                                                    <p class="comment-user">${comment.user.name}</p>
+                                                    <strong class="comment-user">${comment.user.name}</strong>
                                                 </div>
                                                 <p class="comment-text">${comment.content}</p>
                                             </div>
@@ -225,7 +233,7 @@
                                             let errors = xhr.responseJSON.errors;
                                             $("#comment-error").text(errors.content[0]);
                                         } else {
-                                            alert("コメント投稿に失敗しました");
+                                            alert("コメントするにはログインしてください");
                                         }
                                     }
                                 });

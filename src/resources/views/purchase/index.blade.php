@@ -16,7 +16,7 @@
 
                         <div class="item_price">
                             <span class="price_icon">￥</span>
-                            <span class="price_value">{{ $item->price }}</span>
+                            <span class="price_value">{{ number_format($item->price)  }}</span>
                         </div>
                         </div>
             </div>
@@ -28,7 +28,7 @@
                     @csrf
                     <div class="payment_block">
                         <p class="payment_title">支払い方法</p>
-                        <select name="payment_method" id="payment_method">
+                        <select class="payment" name="payment_method" id="payment_method">
                             <option value="">選択してください</option>
                             <option value="コンビニ払い">コンビニ払い</option>
                             <option value="カード支払い">カード支払い</option>
@@ -48,13 +48,8 @@
                             <a class="address_edit" href="{{ route('address.edit', ['item_id' => $item->id]) }}">変更する</a>
                         </div>
                         <div class="shipping_address">
-                            〒{{ $shippingAddressToShow['postal_code'] ?? '未登録' }}
-                            <p>
-                                {{ $shippingAddressToShow['address'] ?? '住所未登録' }}
-                                {{ $shippingAddressToShow['building'] ?? '' }}
-                            </p>
-                            <input type="hidden" name="shipping_address"
-                                value="〒{{ $shippingAddressToShow['postal_code'] }} {{ $shippingAddressToShow['address'] }} {{ $shippingAddressToShow['building'] }}">
+                            <p class="postal_code">〒 {{ $shippingAddress['postal_code'] ?? $profile->postal_code }}</p>
+                            <p class="address"> {{ $shippingAddress['address'] ?? $profile->address }} {{ $shippingAddress['building'] ?? $profile->building }}</p>
                         </div>
 
                         @error('shipping_address')
@@ -72,12 +67,12 @@
                         <th>商品代金</th>
                         <th>
                         <span class="price_icon">￥</span>
-                        <span class="price_value">{{ $item->price }}</span>
+                        <span class="price_value">{{ number_format($item->price)  }}</span>
                         </th>
                     </tr>
                     <tr>
                         <th>支払い方法</th>
-                        <th id="selected_payment">選択されていません</th>
+                        <th id="selected_payment" class="payment">選択してください</th>
                     </tr>
                 </table>
             </div>

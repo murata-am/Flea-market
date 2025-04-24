@@ -39,24 +39,21 @@ class UserController extends Controller
         $profile->address = $validatedAddress['address'];
         $profile->building = $validatedAddress['building'] ?? '';
 
-
-        // 画像アップロード処理
         if ($profileRequest->hasFile('image')) {
             $file = $profileRequest->file('image');
             $path = $file->store('images', 'public');
             $profile->image = $path;
         }
 
+
         $profile->save();
 
         $profileImageUrl = asset('storage/' . $profile->image);
 
         if (session()->pull('from_register')) {
-            // 初回登録時：商品一覧ページへ
             return redirect()->route('items.index', ['tab' => 'mylist'])
                 ->with('success', 'プロフィールを更新しました');
         } else {
-            // 通常のプロフィール更新時：マイページへ
             return redirect()->route('mypage')
                 ->with('success', 'プロフィールを更新しました');
         }
@@ -86,36 +83,41 @@ class UserController extends Controller
 
     public function editAddress($item_id)
     {
-        $profile = auth()->user()->profile;
-
-
-        return view('purchase.address', [
-            'profile' => $profile,
-            'item_id' => $item_id,
-        ]);
-
-    }
-
-    public function updateAddress(AddressRequest $request, $item_id)
-    {
-        $shippingAddress = [
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'building' => $request->building,
-        ];
-
-        session()->put('shipping_address', $shippingAddress);
-
         $user = Auth::user();
-        $item = Item::find($item_id);
         $profile = $user->profile;
 
         $shippingAddressFromSession = session()->get('shipping_address');
-        $shippingAddressToShow = $shippingAddressFromSession ?? [
+
+        $shippingAddress = $shippingAddressFromSession ?? [
             'postal_code' => $profile->postal_code,
             'address' => $profile->address,
             'building' => $profile->building,
         ];
+
+
+        return view('purchase.address', [
+            'profile' => $profile,
+            'shippingAddress' => $shippingAddress,
+            'item_id' => $item_id,
+        ]);
+    }
+
+
+    public function updateAddress(Request $request, $item_id)
+    {
+        $request->validate([
+            'postal_code' => 'required|regex:/^\d{3}-\d{4}$/',
+            'address' => 'required|string|max:255',
+            'building' => 'nullable|string|max:255',
+        ]);
+
+        $shippingAddress = [
+            'postal_code'=> $request->postal_code,
+            'address' => $request->address,
+            'building' => $request->building ?? '',
+        ];
+
+        session()->put('shipping_address', $shippingAddress);
 
         return redirect()->route('purchase.index', ['item_id' => $item_id])
             ->with('success', '住所が更新されました');

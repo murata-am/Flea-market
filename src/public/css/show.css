@@ -1,24 +1,17 @@
 .all_content{
-    max-width: 1200px;
+    max-width: 1600px;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    gap:20px;
+    gap:40px;
     padding: 20px;
     margin: 0 auto;
 }
 
 .left_content{
     width: 100%;
-    max-width: 400px;
+    max-width: 800px;
     padding-top: 35px;
-    margin: 35px;
-    width: 50%;
-}
-
-.right_content{
-    width: 100%;
-    max-width: 600px;
     margin: 35px;
     width: 50%;
 }
@@ -28,10 +21,10 @@
     display: inline-block;
 }
 
-.item_image{
+.item_image {
     width: 100%;
     height: auto;
-    max-width: 400px;
+    max-width: 600px;
     border-radius: 4px;
     display: block;
 }
@@ -50,7 +43,6 @@
     border-top-right-radius: 5px;
 }
 
-
 .sold-text {
     color: white;
     font-size: 16px;
@@ -58,7 +50,58 @@
     transform: rotate(45deg);
 }
 
+.right_content{
+    width: 100%;
+    max-width: 800px;
+    margin: 35px;
+    width: 50%;
+}
+
+
+.like_comment_button .like-comment {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 10px;
+}
+
+
+.like_comment_button .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.like_comment_button .like-btn,
+.like_comment_button .comment-icon {
+    font-size: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 1;
+    color: #333;
+}
+
+.like_comment_button .like-btn:focus {
+    outline: none;
+}
+
+
+.like_comment_button .like-count,
+.like_comment_button .comment_count {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+.item_name {
+    margin-bottom: 5px;
+}
+
 .brand_name{
+    margin-top: 0px;
     font-size: smaller;
 }
 
@@ -78,9 +121,40 @@
     align-items: center;
 }
 
+.comment_label {
+    color: #5F5F5F;
+    font-size: 23px;
+    font-weight: bolder;
+}
+
+
+
+textarea.comment {
+    text-align: flex-start;
+    width: 100%;
+    max-width: 100%;
+    height: 120px;
+    padding: 8px;
+    border: 1.5px solid #454545;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 10px 0;
+    display: block;
+}
+
+.comment-text {
+    display: inline-block;
+    background-color: #E5E5E5;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px 10px;
+    margin: 10px 5px 10px 0;
+    font-size: 14px;
+}
+
 .purchase,
 .comment_button {
-    width: 70%;
+    width: 100%;
     padding: 10px;
     background-color: #FF5555;
     color: white;
@@ -89,7 +163,6 @@
     border-radius: 5px;
     cursor: pointer;
     display: block;
-    margin: 5px;
     text-align: center;
     text-decoration: none;
 }
@@ -114,7 +187,7 @@
     font-weight: bold;
 }
 
-.category_tag {
+.category_tag{
     display: inline-block;
     background-color: #d8d5d5;
     border-radius: 20px;
@@ -123,42 +196,29 @@
     font-size: 14px;
 }
 
+.item_comment {
+    font-weight: bold;
+    font-size: large;
+
+}
+
 /* 1400px - 1540px (PC) の場合 */
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .all_content {
-        max-width: 90%;
-        /* 画面幅に合わせて調整 */
+        max-width: 100%;
+
     }
 
     .left_content,
     .right_content {
-        width: 48%;
-        /* 両側に少し余裕を持たせる */
+        width: 50%;
     }
 }
 
 /* 768px - 850px (タブレット) の場合 */
 @media screen and (min-width: 768px) and (max-width: 850px) {
-    .all_content {
-        align-items: center;
-        /* 中央揃え */
+    .left_content {
     }
-}
-
-.comment_label {
-    color: gray;
-}
-
-.comment {
-    width: 80%;
-    height: 40%;
-    margin-bottom: 5px;
-}
-
-.comment-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
 }
 
 .profile-img {
@@ -172,16 +232,6 @@
 .comment-user {
     font-weight: bold;
     margin-bottom: 2px;
-}
-
-.comment-text {
-    text-align: start;
-    margin: 0;
-    font-size: 14px;
-    display: block;
-    background-color: rgb(219, 218, 218);
-    padding: 8px;
-    border-radius: 5px;
 }
 
 .like_comment_button {

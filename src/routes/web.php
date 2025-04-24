@@ -6,7 +6,6 @@ use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 
-// **商品一覧ページ**
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
 
@@ -18,11 +17,11 @@ Route::middleware('auth')->group(function () {
     route::get('/mypage/profile', [UserController::class, 'edit'])->name('mypage.profile');
     Route::patch('/mypage/profile', [UserController::class, 'update'])->name('mypage.profile.update');
 
+    Route::get('/purchase/address/{item_id}', [UserController::class, 'editAddress'])->name('address.edit');
+    Route::post('/purchase/address/{item_id}', [UserController::class, 'updateAddress'])->name('address.update');
+
     Route::get('/purchase/{item_id}', [ItemController::class, 'purchase'])->name('purchase.index');
     Route::post('/purchase/{item_id}', [ItemController::class, 'storePurchase'])->name('purchase.store');
-
-    Route::get('/purchase/address/{item_id}', [UserController::class, 'editAddress'])->name('address.edit');
-    Route::patch('/purchase/address/{item_id}', [UserController::class, 'updateAddress'])->name('address.update');
 
     Route::post('/like/{item}', [ItemController::class, 'toggle'])->name('like.toggle');
     Route::post('/item/{item_id}/comment', [ItemController::class, 'store'])->name('comment.store');

@@ -28,7 +28,7 @@ class AddressRequest extends FormRequest
             'name' => 'required',
             'postal_code' => 'required|regex:/^\d{3}-\d{4}$/',
             'address' => 'required',
-            'building' => 'nullable|string|max:255',
+            'building' => 'nullable',
         ];
     }
 

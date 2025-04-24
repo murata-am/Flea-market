@@ -7,8 +7,10 @@
 @section('content')
 
     <div class="tab">
-        <a href="/" class="{{ !request('tab') || request('tab') === 'all' ? 'active' : '' }}">おすすめ</a>
-        <a href="/?tab=mylist" class="{{ request('tab') === 'mylist' ? 'active' : '' }}">マイリスト</a>
+        <a href="/?tab=all&query={{ request('query') }}"
+            class="{{ ($tab ?? 'all') === 'all' ? 'active' : '' }}">おすすめ</a>
+        <a href="/?tab=mylist&query={{ request('query')}}"
+            class="{{ ($tab ?? 'all') === 'mylist' ? 'active' : '' }}">マイリスト</a>
     </div>
 
     <div class="container">
@@ -30,7 +32,7 @@
                 </div>
             @endforeach
         @else
-            <p>商品がありません。</p>
+            <p></p>
         @endif
     </div>
 @endsection

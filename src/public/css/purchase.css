@@ -1,7 +1,7 @@
 .all_content {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 45px 40px;
     gap: 20px;
 }
 
@@ -20,26 +20,26 @@
 
 .item_content {
     display: flex;
-    align-items: center;
     margin-bottom: 20px;
 }
 
 .item_image {
     max-width: 150px;
     height: auto;
-    margin-bottom: 20px;
+    margin-top: 8px;
+    margin-bottom: 30px;
     object-fit: cover;
 }
 
 .item_details {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: first baseline;
     margin-left: 30px;
 }
 
 .item_name {
-    font-size: 24px;
+    font-size: 28px;
     margin: 0 0 10px 0;
 }
 
@@ -49,12 +49,17 @@
 }
 
 .price_icon {
-    font-size: smaller;
+    font-size: 20px;
+}
+
+.price_value {
+    font-size: 24px;
 }
 
 .payment_block {
-    margin: 30px auto;
+    margin: 30px auto 50px 30px;
 }
+
 
 .payment_title {
     font-size: 18px;
@@ -62,15 +67,22 @@
     margin-bottom: 10px;
 }
 
-#payment_method {
+.payment {
     width: 50%;
-    padding: 8px;
-    font-size: 16px;
+    padding: 5px 2px;
+    font-size: 17px;
+    margin: 20px;
+    margin-left: 50px;
+    border-color: #333;
+    border-radius: 5px;
+    color: #333;
+    font-weight: bold;
+
 }
 
 
 .shipping_block {
-    margin: 30px auto;
+    margin: 30px auto 60px 30px;
 }
 
 .shipping_title {
@@ -85,13 +97,25 @@
     text-decoration: none;
     font-weight: lighter;
     color: #0073CC;
+    margin-right: 30px;
 }
 
 .shipping_address {
-    margin-left: 20px;
+    margin: 30px;
+    margin-top: 10px;
+    margin-left: 50px;
     font-size: 16px;
+    font-weight: bold;
 }
 
+.postal_code {
+    margin-bottom: 2px;
+}
+
+.address {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
 .error-message {
     color: #fd5555;
 }
@@ -105,28 +129,120 @@
 
 .item_table th,
 .item_table td {
-    padding: 30px;
+    padding: 28px 20px;
     text-align: center;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
     border-left: none;
     border-right: none;
+    font-weight: normal;
 }
 
-/* ボタン */
+.item_table tr:first-child th,
+.item_table tr:first-child td {
+    padding: 23px 18px;
+}
+
+
 .purchase_button {
     display: block;
     width: 100%;
-    padding: 12px;
+    padding: 8px 12px;
     font-size: 18px;
     background-color: #fd5555;
     color: white;
+    font-weight: bold;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .purchase_button:hover {
     background-color: #ff6b6b;
 }
 
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .all_content {
+        margin: 40px 60px;
+        gap: 30px;
+    }
+
+    .item_name {
+        font-size: 30px;
+    }
+
+    .price_value {
+        font-size: 28px;
+    }
+
+    .payment {
+        width: 60%;
+        margin-left: 40px;
+    }
+
+    .shipping_address {
+        margin-left: 40px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .all_content {
+        flex-direction: column;
+        margin: 20px;
+        gap: 10px;
+    }
+
+    .left_content,
+    .right_content {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .item_content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .item_image {
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .item_details {
+        margin-left: 0;
+    }
+
+    .payment {
+        width: 80%;
+        margin-left: 20px;
+    }
+
+    .address_edit {
+        margin-right: 20px;
+    }
+
+    .shipping_address {
+        margin-left: 20px;
+    }
+
+    .purchase_button {
+        font-size: 16px;
+    }
+
+    .item_table table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+
+    .item_table th,
+    .item_table td {
+        width: 50%;
+        height: 80px;
+        vertical-align: middle;
+        text-align: center;
+        padding: 15px;
+    }
+}

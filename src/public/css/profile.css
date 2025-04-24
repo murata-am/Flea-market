@@ -1,4 +1,4 @@
-/* === 登録フォームの中央寄せ === */
+
 .container {
     width: 400px;
     margin: 20px auto;
@@ -57,12 +57,16 @@
 }
 
 /* 入力フォーム */
-input[type="text"] {
+.text_form {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.description_text {
+    height: 50px;
 }
 
 /* エラーメッセージ */
@@ -82,7 +86,6 @@ input[type="text"] {
     /* 左寄せ */
 }
 
-/* 登録ボタン */
 .form_button {
     width: 100%;
     padding: 10px;
@@ -94,7 +97,7 @@ input[type="text"] {
     cursor: pointer;
     display: block;
     /* ブロック要素にして中央配置 */
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .form_button:hover {
