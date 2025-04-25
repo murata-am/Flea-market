@@ -13,9 +13,6 @@ use App\Models\Category;
 use App\Models\LikeButton;
 use App\Models\Comment;
 
-
-
-
 class ItemController extends Controller
 {
     public function index(Request $request)
@@ -25,9 +22,7 @@ class ItemController extends Controller
 
         if ($tab === 'mylist') {
             if ($user) {
-                $items = Item::whereHas('likes', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
+                $items = Item::whereHas('likes', function ($query) use ($user) {$query->where('user_id', $user->id);})
                     ->where('user_id', '!=', $user->id)
                     ->get();
             } else {
@@ -46,12 +41,11 @@ class ItemController extends Controller
         }
 
         $soldItemIds = SoldItem::pluck('item_id')->toArray();
-
         foreach ($items as $item) {
             $item->is_sold = in_array($item->id, $soldItemIds);
         }
 
-        return view('index', compact('items'));
+        return view('index', compact('items', 'tab'));
     }
 
     public function search(Request $request)
@@ -67,20 +61,16 @@ class ItemController extends Controller
                 ->likeButtons()
                 ->pluck('item_id');
             $items = Item::whereIn('id', $likedItemIds);
-
-            if ($query) {
-                $items = $items->where('name', 'like', '%' . $query . '%');
-            }
-
+                if ($query) {
+                    $items = $items->where('name', 'like', '%' . $query . '%');
+                }
             $items = $items->get();
 
         } else {
             $items = Item::query();
-
-            if ($query) {
-                $items = $items->where('name', 'like', '%' . $query . '%');
-            }
-
+                if ($query) {
+                    $items = $items->where('name', 'like', '%' . $query . '%');
+                }
             $items = $items->get();
         }
 
@@ -103,7 +93,6 @@ class ItemController extends Controller
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->get();
-
         $comments_count = $item->comments()->count();
 
         return view('show', compact('item', 'my_like_check', 'item_likes', 'comments', 'soldItem'))
@@ -144,17 +133,17 @@ class ItemController extends Controller
             'item_id' => $item_id,
             'content' => $request->content,
         ]);
-
         $comment = Comment::with('user.profile')->find($comment->id);
+
+        $profileImage = optional($comment->user->profile)->image;
+        $imageUrl = $profileImage ? asset('storage/' . $profileImage) : '';
 
         return response()->json([
             'comment' => [
                 'content' => $comment->content,
                 'user' => [
                     'name' => $comment->user->name,
-                    'profile_image' => $comment->user->profile->image && $comment->user->profile->image
-                        ? asset('storage/' . $comment->user->profile->image)
-                        : asset('default-profile.png'),
+                    'profile_image' => $imageUrl,
                 ],
             ]
         ], 201, [], JSON_UNESCAPED_UNICODE);
@@ -166,7 +155,6 @@ class ItemController extends Controller
         $user = Auth::user();
         $item = Item::find($item_id);
         $profile = $user->profile;
-
         $shippingAddress = session('shipping_address') ?? [
             'postal_code' => $profile->postal_code,
             'address' => $profile->address,
@@ -195,8 +183,6 @@ class ItemController extends Controller
             'address' => $profile->address,
             'building' => $profile->building,
         ]);
-
-
         SoldItem::create([
             'buyer_id' => $user->id,
             'item_id' => $item->id,
@@ -204,10 +190,8 @@ class ItemController extends Controller
             'payment_method' => $request->payment_method,
         ]);
 
-
         return redirect()->route('mypage', ['tab' => 'buy'])->with('success', '購入が完了しました！');
     }
-
 
     public function create()
     {
@@ -229,7 +213,6 @@ class ItemController extends Controller
             return redirect()->back()->withErrors(['image' => '画像は必須です。'])->withInput();
         }
 
-
         $item = Item::create([
             'user_id' => auth()->id(),
             'name' => $request->name,
@@ -239,7 +222,6 @@ class ItemController extends Controller
             'condition' => $request->condition,
             'image' => $imagePath,
         ]);
-
         session()->forget('image_path');
 
         if ($request->has('category_ids')) {
@@ -247,9 +229,6 @@ class ItemController extends Controller
             $item->categories()->attach($categoryIds);
         }
 
-
-
         return redirect()->route('mypage', ['tab' => 'sell'])->with('success', '商品が出品されました！');
     }
-
 }

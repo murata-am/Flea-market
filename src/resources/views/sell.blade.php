@@ -19,8 +19,8 @@
                 <div class="image_frame">
                     <output id="list" class="image_output">
                         @if (session('image_path'))
-                                <img src="{{ asset(session('image_path')) }}" alt="商品画像" class="uploaded-image">
-                                <input type="hidden" name="image" value="{{ session('image_path') }}">
+                            <img src="{{ asset(session('image_path')) }}" alt="商品画像" class="uploaded-image">
+                            <input type="hidden" name="image" value="{{ session('image_path') }}">
                         @endif
                     </output>
 
@@ -93,14 +93,9 @@
                         <p class="error-message">{{ $message }}</p>
                     @enderror
 
-
                 <button class= "exhibit_button" type="submit">出品する</button>
-
             </form>
-
         </div>
-
-
     </div>
 
     <script>

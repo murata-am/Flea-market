@@ -11,47 +11,30 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
-    /**
-     * Validate and update the given user's profile information.
-     *
-     * @param  array<string, string>  $input
-     */
     public function update(User $user, array $input): void
     {
         $profileRequest = new ProfileRequest();
         $profileValidator = Validator::make($input, $profileRequest->rules());
-        $profileValidator->validate();  // バリデーション実行
+        $profileValidator->validate();
 
-        // 住所リクエストのバリデーション
         $addressRequest = new AddressRequest();
         $addressValidator = Validator::make($input, $addressRequest->rules());
-        $addressValidator->validate();  // バリデーション実行
+        $addressValidator->validate();
 
-        // プロフィール画像がアップロードされている場合
         if (isset($input['image'])) {
-            // 画像ファイルの保存
-            $imagePath = $input['image']->store('profile_images', 'public');  // public ディスクに保存
-
-            // 画像パスをユーザー情報に保存
+            $imagePath = $input['image']->store('profile_images', 'public');
             $user->profile_image = $imagePath;
         }
 
-        // ユーザー情報の更新
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],
-            'address' => $input['address'],  // 住所を追加
-            'postal_code' => $input['postal_code'],  // 郵便番号を追加
-            'building' => $input['building'],  // 建物名を追加
+            'address' => $input['address'],
+            'postal_code' => $input['postal_code'],
+            'building' => $input['building'],
         ])->save();
     }
-}
 
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  array<string, string>  $input
-     */
     protected function updateVerifiedUser(User $user, array $input): void
     {
         $user->forceFill([

@@ -36,8 +36,6 @@
                 @enderror
             </div>
 
-            
-
             <button class="form_button" type="submit">ログインする</button>
 
             <a class="link_login" href="/register">会員登録はこちら</a>

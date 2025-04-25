@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +9,6 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
 
 Route::get('/item/{item_id}', [ItemController::class, 'showItem'])->name('item.show');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [UserController::class, 'showUser'])->name('mypage');
@@ -28,6 +26,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/sell', [ItemController::class, 'create'])->name('sell.create');
     Route::post('/sell', [ItemController::class, 'sellStore'])->name('sell.store');
-
 });
 

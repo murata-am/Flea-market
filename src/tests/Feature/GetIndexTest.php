@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\SoldItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GetIndexTest extends TestCase

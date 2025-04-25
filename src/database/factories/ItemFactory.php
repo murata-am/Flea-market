@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Category;
@@ -11,11 +10,7 @@ use App\Models\Category;
 class ItemFactory extends Factory
 {
     protected $model = Item::class;
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
+
     public function definition()
     {
         $conditions = ['良好', '目立った傷や汚れなし', 'やや傷や汚れあり', '状態が悪い'];

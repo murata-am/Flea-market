@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SoldItemFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         return [
@@ -20,7 +15,7 @@ class SoldItemFactory extends Factory
             'item_id' => Item::factory(),
             'shipping_address' => $this->faker->address(),
             'payment_method' => $this->faker->randomElement([
-                'コンビニ払い', 'カード支払い',
+                'コンビニ支払い', 'カード支払い',
             ]),
         ];
     }

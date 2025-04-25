@@ -9,11 +9,10 @@
 }
 
 .left_content{
-    width: 100%;
+    width: 50%;
     max-width: 800px;
     padding-top: 35px;
     margin: 35px;
-    width: 50%;
 }
 
 .image-container {
@@ -57,21 +56,18 @@
     width: 50%;
 }
 
-
 .like_comment_button .like-comment {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 40px;
-    margin-top: 10px;
+    margin-left: 10px;
 }
-
 
 .like_comment_button .icon-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 
 .like_comment_button .like-btn,
 .like_comment_button .comment-icon {
@@ -127,10 +123,8 @@
     font-weight: bolder;
 }
 
-
-
 textarea.comment {
-    text-align: flex-start;
+    text-align: left;
     width: 100%;
     max-width: 100%;
     height: 120px;
@@ -199,10 +193,25 @@ textarea.comment {
 .item_comment {
     font-weight: bold;
     font-size: large;
-
 }
 
-/* 1400px - 1540px (PC) の場合 */
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .all_content {
         max-width: 100%;
@@ -215,32 +224,28 @@ textarea.comment {
     }
 }
 
-/* 768px - 850px (タブレット) の場合 */
 @media screen and (min-width: 768px) and (max-width: 850px) {
-    .left_content {
+    .profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
     }
-}
 
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
+    .comment-user {
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
 
-.comment-user {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
+    .like_comment_button {
+        display: flex;
+    }
 
-.like_comment_button {
-    display: flex;
-}
-
-.error-message {
-    color: #FF5555;
-    font-size: small;
+    .error-message {
+        color: #FF5555;
+        font-size: small;
+    }
 
 }
 

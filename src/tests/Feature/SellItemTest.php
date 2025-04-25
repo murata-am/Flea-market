@@ -57,6 +57,5 @@ class SellItemTest extends TestCase
                 'category_id' => $category->id,
             ]);
         }
-
     }
 }

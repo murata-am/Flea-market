@@ -14,13 +14,15 @@
             @method('PATCH')
             <div class="image_container">
                 <div class="image_output_wrap">
-                    <img class="profile_image"  id="previewImage"                         src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('images/default.png') }}"
-                        alt="">
+                    @if ($profile->image)
+                        <img class="profile_image" id="previewImage" src="{{ asset('storage/' . $profile->image) }}" alt="">
+                    @else
+                        <img class="profile_image" id="previewImage" style="display: none;" alt="">
+                    @endif
                     <input class="file" type="file" id="imageInput" name="image" accept="image/*" hidden>
-                    </output>
                 </div>
 
-            <label for="imageInput" class="file-label">画像を選択する</label>
+                <label for="imageInput" class="file-label">画像を選択する</label>
             </div>
 
             <div class="form-error">
@@ -31,7 +33,6 @@
 
             <div class="form-label">ユーザー名</div>
             <input class="text_form" type="text" id="name" name="name" value="{{ old('name', $user->name ?? '') }}">
-
 
             <div class="form-error">
                 @error('name')
@@ -64,14 +65,14 @@
     </div>
 
     <script>
-    document.getElementById('imageInput').addEventListener('change', function (e) {
+        document.getElementById('imageInput').addEventListener('change', function (e) {
             const file = e.target.files[0];
             const preview = document.getElementById('previewImage');
-
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     preview.src = event.target.result;
+                    preview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             }

@@ -9,7 +9,6 @@ class RegisterResponse implements RegisterResponseContract
 {
     public function toResponse($request)
     {
-        // **登録後に `/mypage/profile` へリダイレクト**
         return redirect('/mypage/profile');
     }
 }

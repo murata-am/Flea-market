@@ -30,7 +30,6 @@
                 </p>
 
                 <div class="like_comment_button">
-                <div class="item">
                     <div class="like-comment">
                         <div class="icon-wrapper">
                             <button class="like-btn" data-item-id="{{ $item->id }}">
@@ -48,13 +47,10 @@
                             <p class="comment_count">{{ $item->comments ? $item->comments->count() : 0 }}</p>
                         </div>
                     </div>
-            </div>
-
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script>
                         $(document).ready(function () {
-
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -151,72 +147,73 @@
                     </div>
                 </section>
 
-                    <h3 class="comment_label">コメント ({{ $item->comments ? $item->comments->count() : 0 }})</h3>
-                    <p class="comment_user">
-
-                    <div id="comments">
+                <h3 class="comment_label">コメント ({{ $item->comments ? $item->comments->count() : 0 }})</h3>
+                <div class="comment_user" id="comments">
                     @if($item->comments->count() > 0)
-                            @foreach($item->comments as $comment)
-                                <div class="comment">
-                                    <img src="{{ asset($comment->user->profile->image && $comment->user->profile->image ? 'storage/' . $comment->user->profile->image : 'default-profile.png') }}" alt="" class="profile-img">
+                        @foreach($item->comments as $comment)
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <div class="profile-img"
+                                    style="background-image: url('{{ $comment->user->profile->image ? asset('storage/' . $comment->user->profile->image) : '' }}');">
+                                    </div>
                                     <strong class="comment-user">{{ $comment->user->name }}</strong>
-                                    <p class="comment-text"> {{ $comment->content }}</p>
                                 </div>
-                            @endforeach
+                                <p class="comment-text"> {{ $comment->content }}</p>
+                            </div>
+                        @endforeach
 
                     @else
                         <p id="no-comments"></p>
                     @endif
-                    </div>
-                    </p>
+                </div>
 
-                    <form action="{{ route('comment.store', ['item_id' => $item->id]) }}" method="post">
-                        @csrf
-                        <label for="text" class="item_comment">商品へのコメント</label>
-                        <textarea id="comment-content" type="text" name="content" class="comment">{{ old('content') }}</textarea>
+                <form action="{{ route('comment.store', ['item_id' => $item->id]) }}" method="post">
+                    @csrf
+                    <label for="text" class="item_comment">商品へのコメント</label>
+                    <textarea id="comment-content" type="text" name="content" class="comment">{{ old('content') }}</textarea>
 
-                        <div id="comment-error" class="error-message"></div>
+                    <div id="comment-error" class="error-message"></div>
 
-                        <button class="comment_button" type="button" id="submit-comment" data-item-id="{{ $item->id }}">コメントを送信する</button>
+                    <button class="comment_button" type="button" id="submit-comment" data-item-id="{{ $item->id }}">コメントを送信する</button>
 
-                    </form>
+                </form>
 
-                    <script>
-                        $(document).ready(function () {
-                            $("#submit-comment").click(function (event) {
-                                event.preventDefault();
+                <script>
+                    $(document).ready(function () {
+                        $("#submit-comment").click(function (event) {
+                            event.preventDefault();
 
-                                $.ajaxSetup({
-                                    headers: {
-                                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                                    }
-                                });
+                            $.ajaxSetup({
+                                headers: {
+                                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                                }
+                            });
 
-                                let itemId = $(this).data("item-id");
-                                let content = $("#comment-content").val().trim();
-                                let errorDiv = $("#comment-error");
+                            let itemId = $(this).data("item-id");
+                            let content = $("#comment-content").val().trim();
+                            let errorDiv = $("#comment-error");
 
-                                errorDiv.text("");
+                            errorDiv.text("");
 
-                                $.ajax({
-                                    url: `/item/${itemId}/comment`,
-                                    type: "POST",
-                                    data: { content: content },
-                                    success: function (response) {
-                                        let comment = response.comment;
+                            $.ajax({
+                                url: `/item/${itemId}/comment`,
+                                type: "POST",
+                                data: { content: content },
+                                success: function (response) {
+                                    let comment = response.comment;
 
-                                        errorDiv.text("");
+                                    errorDiv.text("");
 
-                                        $("#no-comments").remove();
-                                        $("#comments").append(`
-                                            <div class="comment">
-                                                <div class="comment-header">
-                                                    <img src="${comment.user.profile_image ?? 'default-profile.png'}" alt="" class="profile-img">
+                                    $("#no-comments").remove();
+                                    $("#comments").append(`
+                                        <div class="comment">
+                                            <div class="comment-header">
+                                                <div class="profile-img" style="background-image: url('${comment.user.profile_image ?? ''}')"></div>
                                                     <strong class="comment-user">${comment.user.name}</strong>
                                                 </div>
-                                                <p class="comment-text">${comment.content}</p>
-                                            </div>
-                                        `);
+                                            <p class="comment-text">${comment.content}</p>
+                                        </div>
+                                    `);
                                     $("#comment-content").val("");
 
                                     let currentCount = parseInt($(".comment_count").text());
@@ -225,8 +222,8 @@
 
                                     setTimeout(function () {
                                             console.log("コメントが反映されました");
-                                        }, 100);
-                                    },
+                                    }, 100);
+                                },
 
                                     error: function (xhr) {
                                         if (xhr.status === 422) {
@@ -236,16 +233,11 @@
                                             alert("コメントするにはログインしてください");
                                         }
                                     }
-                                });
                             });
-                            });
-                    </script>
-
+                        });
+                    });
+                </script>
             </div>
         </div>
-
     </div>
-
-
-
 @endsection

@@ -11,7 +11,6 @@ use App\Models\Profile;
 
 class UserController extends Controller
 {
-
     public function edit(Request $request)
     {
         $user = auth()->user();
@@ -45,7 +44,6 @@ class UserController extends Controller
             $profile->image = $path;
         }
 
-
         $profile->save();
 
         $profileImageUrl = asset('storage/' . $profile->image);
@@ -58,8 +56,6 @@ class UserController extends Controller
                 ->with('success', 'プロフィールを更新しました');
         }
     }
-
-
 
     public function showUser(Request $request)
     {
@@ -93,7 +89,6 @@ class UserController extends Controller
             'address' => $profile->address,
             'building' => $profile->building,
         ];
-
 
         return view('purchase.address', [
             'profile' => $profile,

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
@@ -83,7 +82,6 @@ class ShowItemTest extends TestCase
             }
     }
 
-
     public function test_複数選択されたカテゴリが表示されている()
     {
         $user = User::factory()->create();
@@ -99,6 +97,5 @@ class ShowItemTest extends TestCase
         foreach ($categories as $category) {
             $response->assertSee($category->name);
         }
-
     }
 }

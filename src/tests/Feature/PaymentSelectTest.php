@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\Item;
 
 class PaymentSelectTest extends TestCase
@@ -13,6 +14,9 @@ class PaymentSelectTest extends TestCase
     public function test_小計画面で選択した支払方法が正しく反映されている()
     {
         $user = User::factory()->create();
+        $profile = Profile::factory()->create([
+            'user_id' => $user->id,
+        ]);
         $item = Item::factory()->create([
             'price' => 5000,
             'image' => 'test.jpg',
@@ -21,12 +25,11 @@ class PaymentSelectTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get(route('purchase.store', ['item_id' => $item->id]), [
+        $response = $this->post(route('purchase.store', ['item_id' => $item->id]), [
             'payment_method' => 'カード支払い',
         ]);
 
         $response->assertRedirect(route('mypage', ['tab' => 'buy']));
-
         $this->assertDatabaseHas('sold_items', [
             'buyer_id' => $user->id,
             'item_id' => $item->id,

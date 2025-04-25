@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -20,7 +19,6 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['name']);
-
     }
 
     public function test_メールアドレス未入力のときにエラーメッセージが表示される()
@@ -45,7 +43,6 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['password']);
-
     }
 
     public function test_パスワードが7文字以下のときにエラーメッセージが表示される()
@@ -58,7 +55,6 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['password']);
-
     }
 
     public function test_確認用パスワードと一致しないときにエラーメッセージが表示される()
@@ -71,7 +67,6 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['password']);
-
     }
 
     public function test_全ての項目が正しく入力されたときに会員情報が登録され、初回プロフィール設定画面に遷移する()
@@ -91,6 +86,4 @@ class RegisterTest extends TestCase
 
         $response->assertRedirect('/mypage/profile');
     }
-
-
 }

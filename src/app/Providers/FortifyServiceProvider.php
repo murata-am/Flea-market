@@ -17,17 +17,11 @@ use App\Actions\Fortify\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
@@ -57,7 +51,6 @@ class FortifyServiceProvider extends ServiceProvider
         return null;
     });
 
-
         $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
 
         RateLimiter::for('login', function (Request $request) {
@@ -65,7 +58,5 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(10)->by($email . $request->ip());
         });
-
-
     }
 }

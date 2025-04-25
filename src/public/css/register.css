@@ -20,14 +20,12 @@
     width: auto;
 }
 
-/* タブレット用（幅 768-850px） */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .Top-page_header {
         width: 600px;
         margin-left: 3%;
     }
 }
-
 
 .container {
     width: 400px;
@@ -43,7 +41,6 @@
     margin-bottom: 5px;
 }
 
-
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -52,7 +49,6 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 
 .form-error {
     color: red;
@@ -77,7 +73,6 @@ input[type="password"] {
 .form_button:hover {
     background-color: #fc534e;
 }
-
 
 .link_login {
     display: block;
