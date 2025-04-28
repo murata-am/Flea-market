@@ -31,7 +31,20 @@ class ItemTableSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        public/items/watch.jpg
+        $items = [
+            [
+                'user_id' => $user1->id,
+                'name' => '腕時計',
+                'price' => 15000,
+                'categories' => ['ファッション', 'メンズ'],
+                'description' => 'スタイリッシュなデザインのメンズ腕時計',
+                'condition' => 1, //良好
+                'image' => 'watch.jpg',
+                'brand_name' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+
+            ],
             [
                 'user_id' => $user1->id,
                 'name' => 'HDD',
