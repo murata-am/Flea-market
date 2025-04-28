@@ -12,6 +12,7 @@ use App\Models\SoldItem;
 use App\Models\Category;
 use App\Models\LikeButton;
 use App\Models\Comment;
+use Illuminate\Support\Collection;
 
 class ItemController extends Controller
 {
@@ -25,20 +26,16 @@ class ItemController extends Controller
                 $items = Item::whereHas('likes', function ($query) use ($user) {$query->where('user_id', $user->id);})
                     ->where('user_id', '!=', $user->id)
                     ->get();
+                } else {
+                    $items = collect();
+                }
             } else {
                 if ($user) {
                     $items = Item::where('user_id', '!=', $user->id)->get();
                 } else {
-                    $items = Item::all();
+                $items = Item::all();
                 }
             }
-        } else {
-            if ($user) {
-                $items = Item::where('user_id', '!=', $user->id)->get();
-            } else {
-                $items = Item::all();
-            }
-        }
 
         $soldItemIds = SoldItem::pluck('item_id')->toArray();
         foreach ($items as $item) {
@@ -60,18 +57,26 @@ class ItemController extends Controller
             $likedItemIds = auth()->user()
                 ->likeButtons()
                 ->pluck('item_id');
-            $items = Item::whereIn('id', $likedItemIds);
-                if ($query) {
-                    $items = $items->where('name', 'like', '%' . $query . '%');
-                }
-            $items = $items->get();
+            $items = Item::with('sold_item')
+                ->whereIn('id', $likedItemIds)
+                ->where('user_id', '!=', auth()->id());
 
-        } else {
-            $items = Item::query();
                 if ($query) {
                     $items = $items->where('name', 'like', '%' . $query . '%');
                 }
             $items = $items->get();
+        } else {
+            $items = Item::with('sold_item')
+                ->where('user_id', '!=', auth()->id());
+
+                if ($query) {
+                    $items = $items->where('name', 'like', '%' . $query . '%');
+                }
+            $items = $items->get();
+        }
+
+        foreach ($items as $item) {
+            $item->is_sold = $item->sold_item !== null;
         }
 
         return view('index', compact('items', 'tab'));

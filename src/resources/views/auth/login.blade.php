@@ -12,7 +12,10 @@
 <body>
     <header class="header">
         <div class="Top-page_header">
-            <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHアイコン"></a>
+            <a href="/">
+                <img src="{{ asset('images/logo.svg') }}" alt="COACHTECHアイコン">
+            </a>
+        </div>
     </header>
 
     <div class="container">

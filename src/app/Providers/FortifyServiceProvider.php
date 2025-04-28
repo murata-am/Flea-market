@@ -2,18 +2,20 @@
 
 namespace App\Providers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Responses\RegisterResponse;
+use App\Models\User;
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Fortify;
-use App\Http\Responses\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
-use App\Actions\Fortify\UpdateUserProfileInformation;
-
+use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -41,10 +43,9 @@ class FortifyServiceProvider extends ServiceProvider
         $loginRequest->merge($request->only('email', 'password'));
         $loginRequest->validateResolved();
 
-        $user = \App\Models\User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-        if ($user &&\Illuminate\Support\Facades\Hash::check($request->password, $user->password)
-        ) {
+        if ($user && Hash::check($request->password, $user->password)) {
             return $user;
         }
 

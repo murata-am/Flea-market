@@ -212,6 +212,11 @@ textarea.comment {
     flex-shrink: 0;
 }
 
+.error-message {
+    color: #FF5555;
+    font-size: small;
+}
+
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .all_content {
         max-width: 100%;

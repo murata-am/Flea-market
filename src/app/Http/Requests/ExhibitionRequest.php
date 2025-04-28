@@ -37,8 +37,8 @@ class ExhibitionRequest extends FormRequest
             'condition.required' => '商品の状態を選択してください',
             'category_ids.required' => '商品のカテゴリーを選択してください',
             'image.required' => '商品画像のアップロードしてください',
-            'image.image' => 'ファイルは画像である必要があります',
-            'image.mimes' => 'アップロードできる画像形式は JPEG または PNG のみです。',
+            'image.image' => 'アップロードできる画像形式は.jpegまたは.png のみです',
+            'image.mimes' => 'アップロードできる画像形式は.jpegまたは.pngのみです',
         ];
     }
 }

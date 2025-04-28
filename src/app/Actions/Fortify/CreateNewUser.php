@@ -16,9 +16,9 @@ class CreateNewUser implements CreatesNewUsers
         $request->validateResolved();
 
         return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
     }
 }

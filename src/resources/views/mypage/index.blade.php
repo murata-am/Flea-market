@@ -23,8 +23,10 @@
         @if(isset($items) && count($items) > 0)
             @foreach($items as $item)
                 <div class="item">
-                    <img src="{{ asset($item->image) }}" alt="{{ $item->name }}">
-                    <p class="image_name">{{ $item->name }}</p>
+                    <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-link">
+                        <img src="{{ asset($item->image) }}" alt="{{ $item->name }}">
+                        <p class="image_name">{{ $item->name }}</p>
+                    </a>
                 </div>
             @endforeach
         @else
