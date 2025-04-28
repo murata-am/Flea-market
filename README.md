@@ -1,8 +1,8 @@
 # フリマアプリ
 
 ## プロジェクトの概要
-- サービス名:coachtechフリマ
-- サービス概要:ある企業が開発した独自のフリマアプリ
+- サービス名 : coachtechフリマ
+- サービス概要 : ある企業が開発した独自のフリマアプリ
 
 ## 環境構築手順
 
@@ -15,7 +15,8 @@ Docker のビルド
 3. docker-compose exec php bash
 4. composer install
 5. cp .env.example .env
-   .envファイルの以下の環境変数を変更する
+
+   .envファイルを作成後、以下の環境変数を変更する
 
 ```bash
  DB_CONNECTION=mysql　　
@@ -25,18 +26,20 @@ Docker のビルド
  DB_USERNAME=laravel_user　　
  DB_PASSWORD=laravel_pass
 ```
- ※権限エラーが出る可能性もあるので、その場合は次のコマンドを行う →chmod 644 .env
-
 
 6. アプリケーションキーの作成
-   php artisan key:generate
+    php artisan key:generate
 7. シンボリックリンクの作成
-   php artisan storage:link
+    php artisan storage:link
 8. マイグレーションの実行
-   php artisan migrate
+    php artisan migrate
 9. シーディングの実行
-   php artisan db:seed
+    php artisan db:seed
 
+※環境構築の動作確認時にファイルの権限のエラーが起きることがありましたので、その際は次のコマンドなどで対応いただけたら幸いです
+```bash
+sudo chmod -R 777 src/*
+```
 ## テストユーザーのログイン情報
 
 - メールアドレス:testuser@example.com
