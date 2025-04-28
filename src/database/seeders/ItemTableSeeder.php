@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Item;
+use Illuminate\Support\Facades\Storage;
 
 class ItemTableSeeder extends Seeder
 {
@@ -38,7 +39,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['ファッション', 'メンズ'],
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'condition' => 1, //良好
-                'image' => 'storage/items/watch.jpg',
+                'image' => 'watch.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -50,7 +51,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['家電'],
                 'description' => '高速で信頼性の高いハードディスク',
                 'condition' => 2, //目立った傷や汚れなし
-                'image' => 'storage/items/HDD.jpg',
+                'image' => 'HDD.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -63,7 +64,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['キッチン'],
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'condition' => 3, //やや傷や汚れあり
-                'image' => 'storage/items/onion.jpg',
+                'image' => 'onion.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -76,7 +77,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['ファッション', 'メンズ'],
                 'description' => 'クラシックなデザインの革靴',
                 'condition' => 4, //状態が悪い
-                'image' => 'storage/items/shoes.jpg',
+                'image' => 'shoes.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -89,7 +90,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['家電', 'ゲーム'],
                 'description' => '高性能なノートパソコン',
                 'condition' => 1, //良好
-                'image' => 'storage/items/Laptop.jpg',
+                'image' => 'Laptop.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -102,7 +103,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['家電', 'おもちゃ'],
                 'description' => '高品質のレコーディング用マイク',
                 'condition' => 2, //目立った傷や汚れなし
-                'image' => 'storage/items/mic.jpg',
+                'image' => 'mic.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -115,7 +116,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['ファッション', 'レディース'],
                 'description' => 'おしゃれなショルダーバッグ',
                 'condition' => 3, //やや傷や汚れあり
-                'image' => 'storage/items/bag.jpg',
+                'image' => 'bag.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -128,7 +129,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['キッチン', '家電'],
                 'description' => '使いやすいタンブラー',
                 'condition' => 4, //状態が悪い
-                'image' => 'storage/items/tumbler.jpg',
+                'image' => 'tumbler.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -141,7 +142,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['家電', 'キッチン'],
                 'description' => '手動のコーヒーミル',
                 'condition' => 1, //良好
-                'image' => 'storage/items/CoffeeGrinder.jpg',
+                'image' => 'CoffeeGrinder.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -154,7 +155,7 @@ class ItemTableSeeder extends Seeder
                 'categories' => ['レディース', 'アクセサリー'],
                 'description' => '便利なメイクアップセット',
                 'condition' => 2, //目立った傷や汚れなし
-                'image' => 'storage/items/makeup-set.jpg',
+                'image' => 'makeup-set.jpg',
                 'brand_name' => '',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -163,13 +164,20 @@ class ItemTableSeeder extends Seeder
         ];
 
         foreach ($items as $data) {
+
+            $imagePath = $data['image'];
+            $image = file_get_contents(base_path('public/storage/items/' . $imagePath));
+            $storedImagePath = 'items/' . $imagePath;
+
+            Storage::disk('public')->put($storedImagePath, $image);
+
             $item = Item::create([
                 'user_id' => $data['user_id'],
                 'name' => $data['name'],
                 'price' => $data['price'],
                 'description' => $data['description'],
                 'condition' => $data['condition'],
-                'image' => $data['image'],
+                'image' => $storedImagePath,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
