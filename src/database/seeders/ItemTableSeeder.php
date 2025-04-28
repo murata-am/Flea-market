@@ -31,19 +31,7 @@ class ItemTableSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $items = [
-            [
-                'user_id' => $user1->id,
-                'name' => '腕時計',
-                'price'  => 15000,
-                'categories' => ['ファッション', 'メンズ'],
-                'description' => 'スタイリッシュなデザインのメンズ腕時計',
-                'condition' => 1, //良好
-                'image' => 'watch.jpg',
-                'brand_name' => '',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        public/items/watch.jpg
             [
                 'user_id' => $user1->id,
                 'name' => 'HDD',
@@ -166,7 +154,7 @@ class ItemTableSeeder extends Seeder
         foreach ($items as $data) {
 
             $imagePath = $data['image'];
-            $image = file_get_contents(base_path('public/storage/items/' . $imagePath));
+            $image = file_get_contents(public_path('items/' . $imagePath));
             $storedImagePath = 'items/' . $imagePath;
 
             Storage::disk('public')->put($storedImagePath, $image);

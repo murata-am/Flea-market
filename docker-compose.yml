@@ -16,6 +16,7 @@ services:
     volumes:
       - ./src:/var/www/
       - ./src:/var/www/src
+      - ./src/storage:/var/www/storage
 
   mysql:
     image: mysql:8.0.26
