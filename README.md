@@ -9,12 +9,22 @@
 Docker のビルド
 1. git clone git@github.com:murata-am/Flea-market.git  
 - Flea-marketへ移動する
-
 2. docker-compose up -d --build  
-   Laravel 環境構築
-3. docker-compose exec php bash
-4. composer install
-5. cp .env.example .env
+
+※MacのPCの場合、no matching manifest for linux/arm64/v8 in the manifest list entriesのメッセージが表示されビルドができないことがあります。
+エラーが発生する場合は、docker-compose.ymlファイルの「mysql」内に「platform」の項目を追加で記載してください
+```bash
+mysql:
+    platform: linux/x86_64(この文追加)
+    image: mysql:8.0.26
+    environment:
+```
+
+Laravel 環境構築
+
+3. docker-compose exec php bash    
+4. composer install    
+5. cp .env.example .env   
 
    .envファイルを作成後、以下の環境変数を変更する
 
